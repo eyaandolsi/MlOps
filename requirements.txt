@@ -1,0 +1,10 @@
+pandas
+scikit-learn
+xgboost
+joblib
+matplotlib
+prefect
+black
+flake8
+bandit
+pytest

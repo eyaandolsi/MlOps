@@ -1,0 +1,6 @@
+venv/
+venv_old/
+__pycache__/
+*.joblib
+.pytest_cache/
+diabetic_data.csv
