@@ -12,7 +12,6 @@ from pipeline_prefect import (
     train_flow,
 )
 
-# Mets l'URL de ton repo GitHub ici, ou laisse None tant qu'il n'existe pas
 REPO_URL = "https://github.com/eyaandolsi/MlOps.git"
 
 if __name__ == "__main__":
@@ -20,12 +19,28 @@ if __name__ == "__main__":
         all_flow.to_deployment(
             name="ml-pipeline-all",
             schedule=Cron("0 2 * * *", timezone="Africa/Tunis"),
-            parameters={"repo_url": REPO_URL},
+            parameters={
+                "data": "diabetic_data.csv",
+                "model_name": "xgb",
+                "repo_url": REPO_URL,
+            },
             tags=["full-pipeline", "mlops"],
         ),
-        train_flow.to_deployment(name="ml-pipeline-train", tags=["training", "mlops"]),
-        evaluate_flow.to_deployment(name="ml-pipeline-evaluate", tags=["evaluation", "mlops"]),
-        predict_flow.to_deployment(name="ml-pipeline-predict", tags=["prediction", "mlops"]),
+        train_flow.to_deployment(
+            name="ml-pipeline-train",
+            parameters={"data": "diabetic_data.csv", "model_name": "xgb"},
+            tags=["training", "mlops"],
+        ),
+        evaluate_flow.to_deployment(
+            name="ml-pipeline-evaluate",
+            parameters={"data": "diabetic_data.csv", "model_name": "xgb"},
+            tags=["evaluation", "mlops"],
+        ),
+        predict_flow.to_deployment(
+            name="ml-pipeline-predict",
+            parameters={"data": "diabetic_data.csv", "model_name": "xgb"},
+            tags=["prediction", "mlops"],
+        ),
         code_flow.to_deployment(name="ml-pipeline-code", tags=["quality", "mlops"]),
         install_flow.to_deployment(name="ml-pipeline-install", tags=["setup", "mlops"]),
     )

@@ -44,9 +44,15 @@ def recuperer_projet(repo_url, dossier="projet"):
 def installer_dependances():
     executer(
         [
-            sys.executable, "-m", "pip", "install",
-            "--default-timeout=600", "--retries", "10",
-            "-r", "requirements.txt",
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--default-timeout=600",
+            "--retries",
+            "10",
+            "-r",
+            "requirements.txt",
         ]
     )
 
@@ -74,6 +80,8 @@ def tests_unitaires():
 # ---------------- TASKS : data / modèle ----------------
 @task(name="Préparation des données")
 def preparer_donnees(data):
+    # DIAGNOSTIC : à retirer une fois le problème de paramètre résolu
+    get_run_logger().info(f"data reçu : {data!r}")
     return prepare_data(data)
 
 
